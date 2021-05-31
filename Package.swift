@@ -23,11 +23,17 @@ let package = Package(
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
+            name: "ConcreteGit",
+            dependencies: []),
+        .target(
             name: "ChangelogGenerator",
             dependencies: []),
         .target(
             name: "ChangelogGeneratorCLI",
-            dependencies: ["ChangelogGenerator"]),
+            dependencies: ["ConcreteGit", "ChangelogGenerator"]),
+        .testTarget(
+            name: "ConcreteGitTests",
+            dependencies: ["ConcreteGit"]),
         .testTarget(
             name: "ChangelogGeneratorTests",
             dependencies: ["ChangelogGenerator"]),
