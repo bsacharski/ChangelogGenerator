@@ -27,18 +27,16 @@ public struct Log {
 
     private static func getGitLog(repoPath: String) throws -> String {
         let gitLog = Process()
-
         gitLog.currentDirectoryPath = repoPath
         gitLog.executableURL = URL(fileURLWithPath: GIT_PATH)
         gitLog.arguments = [
             "log",
             #"--pretty=%h %D | %s"#,
-            "--no-show-signature",
+            "--no-show-signature"
         ]
 
         let stdOutPipe = Pipe()
         gitLog.standardOutput = stdOutPipe
-
 
         try gitLog.run()
         let rawStdOutput = stdOutPipe.fileHandleForReading.readDataToEndOfFile()

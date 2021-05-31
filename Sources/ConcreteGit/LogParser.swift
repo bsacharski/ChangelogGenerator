@@ -51,12 +51,12 @@ struct LogParser {
     private static func extractTagFromRefs(refs: String) -> String? {
         for ref in refs.split(separator: ",") {
             let cleanedUpRef = ref.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-            if (cleanedUpRef.starts(with: "tag: ")) {
+            if cleanedUpRef.starts(with: "tag: ") {
                 return cleanedUpRef.replacingOccurrences(of: "tag:", with: "")
                     .trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
             }
         }
-        
+
         return nil
     }
 
