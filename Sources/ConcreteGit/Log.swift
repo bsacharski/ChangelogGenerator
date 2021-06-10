@@ -31,7 +31,7 @@ public struct Log {
         gitLog.executableURL = URL(fileURLWithPath: GIT_PATH)
         gitLog.arguments = [
             "log",
-            #"--pretty=%h %D | %s"#,
+            #"--pretty=%at %h %D | %s"#,
             "--no-show-signature"
         ]
 

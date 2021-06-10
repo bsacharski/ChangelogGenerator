@@ -5,15 +5,17 @@ enum LogParserError: Error {
 }
 
 struct LogParser {
-    private static func extractCommitComponents(line: String) throws -> (hash: String, tag: String?, subject: String) {
+    private static func extractCommitComponents(line: String) throws -> (hash: String, timestamp: TimeInterval, tag: String?, subject: String) {
         // We operate on strings like:
         // "ec3a4b6 HEAD -> main, tag: v1.10.7, origin/main, origin/HEAD | chore(release): 1.10.7", or
         // "9b32244 tag: v1.10.6 | chore(release): 1.10.6", or
         // "9bb1e99  | chore(deps): update dependencies"
-        let commitComponents = ["sha", "refs", "subject"]
+        let commitComponents = ["timestamp", "sha", "refs", "subject"]
         let extractPattern = #"""
         (?xi)
         ^
+        (?<timestamp>\d+)
+        \s
         (?<sha>[a-f0-9]+)
         \s+
         (?<refs>.*)?
@@ -36,16 +38,17 @@ struct LogParser {
             }
         }
 
-        guard extractedMatches["sha"] != nil else {
-            throw LogParserError.parsingError(line: line)
-        }
-
-        guard extractedMatches["subject"] != nil else {
+        guard Set(extractedMatches.keys).isSuperset(of: ["timestamp", "sha", "subject"]) else {
             throw LogParserError.parsingError(line: line)
         }
 
         let tag = extractTagFromRefs(refs: extractedMatches["refs"] ?? "")
-        return (hash: extractedMatches["sha"]!, tag: tag, subject: extractedMatches["subject"]!)
+        return (
+            hash: extractedMatches["sha"]!,
+            timestamp: TimeInterval(extractedMatches["timestamp"]!)!,
+            tag: tag,
+            subject: extractedMatches["subject"]!
+        )
     }
 
     private static func extractTagFromRefs(refs: String) -> String? {
@@ -64,6 +67,13 @@ struct LogParser {
         let author = Author(name: "John Doe", email: "jdoe@email.test")
         let components = try extractCommitComponents(line: line)
         let tag = components.tag != nil ? Tag(name: components.tag!) : nil
-        return Commit(abbreviatedHash: components.hash, author: author, subject: components.subject, tag: tag)
+
+        return Commit(
+            abbreviatedHash: components.hash,
+            commitDate: Date(timeIntervalSince1970: components.timestamp),
+            author: author,
+            subject: components.subject,
+            tag: tag
+        )
     }
 }
