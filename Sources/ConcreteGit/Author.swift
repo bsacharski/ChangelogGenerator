@@ -1,10 +1,10 @@
 import Foundation
 
-struct Author: CustomStringConvertible, Equatable {
-    let name: String
-    let email: String
+public struct Author: CustomStringConvertible, Equatable {
+    public let name: String
+    public let email: String
 
-    var description: String {
+    public var description: String {
         return "\(name) <\(email)>"
     }
 }

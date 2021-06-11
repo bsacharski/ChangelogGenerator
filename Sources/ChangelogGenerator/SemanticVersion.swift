@@ -117,6 +117,7 @@ struct PreRelease: Comparable, CustomStringConvertible {
             return lhs.preReleaseTypeChain.count < rhs.preReleaseTypeChain.count
         }
 
+        // swiftlint:disable:next line_length
         for (lhsPreRelaseType, rhsPreReleaseType) in zip(lhs.preReleaseTypeChain, rhs.preReleaseTypeChain) where lhsPreRelaseType != rhsPreReleaseType {
             // alpha.1 < beta.1
             return lhsPreRelaseType.rawValue < rhsPreReleaseType.rawValue
@@ -142,7 +143,9 @@ struct PreRelease: Comparable, CustomStringConvertible {
 }
 
 struct SemanticVersionParser {
-    private static func extractSemVerComponents(version: String) -> (requiredComponents: [String: Int], optionalComponents: [String: String]) {
+    private static func extractSemVerComponents(
+        version: String
+    ) -> (requiredComponents: [String: Int], optionalComponents: [String: String]) {
         let requiredComponents = ["major", "minor", "patch"]
         let optionalComponents = ["prerelease", "buildmetadata"]
         let regexPattern  = #"""
@@ -218,7 +221,7 @@ struct SemanticVersionParser {
             throw SemanticVersionError.missingVersionComponents
         }
 
-        var preRelease: PreRelease? = nil
+        var preRelease: PreRelease?
         if let preReleaseData = optionalComponents["prerelease"] {
             preRelease = try parsePreRelease(preRelease: preReleaseData)
         }

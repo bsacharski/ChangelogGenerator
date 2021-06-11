@@ -1,9 +1,9 @@
 import Foundation
 
-struct Tag: CustomStringConvertible, Equatable {
-    let name: String
+public struct Tag: CustomStringConvertible, Equatable {
+    public let name: String
 
-    var description: String {
+    public var description: String {
         return name
     }
 }

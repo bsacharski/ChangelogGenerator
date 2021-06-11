@@ -5,7 +5,9 @@ enum LogParserError: Error {
 }
 
 struct LogParser {
-    private static func extractCommitComponents(line: String) throws -> (hash: String, timestamp: TimeInterval, tag: String?, subject: String) {
+    private static func extractCommitComponents(
+        line: String
+    ) throws -> (hash: String, timestamp: TimeInterval, tag: String?, subject: String) {
         // We operate on strings like:
         // "ec3a4b6 HEAD -> main, tag: v1.10.7, origin/main, origin/HEAD | chore(release): 1.10.7", or
         // "9b32244 tag: v1.10.6 | chore(release): 1.10.6", or
@@ -25,6 +27,7 @@ struct LogParser {
         (?<subject>.*)
         $
         """#
+        // swiftlint:disable:next force_try
         let regex = try! NSRegularExpression(pattern: extractPattern, options: [])
 
         var extractedMatches: [String: String] = [:]

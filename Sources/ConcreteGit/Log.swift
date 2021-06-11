@@ -6,11 +6,11 @@ public enum GitError: Error {
 }
 
 public struct Log {
-    private static let GIT_PATH = "/usr/bin/git"
+    private static let gitPath = "/usr/bin/git"
 
     private static func checkGitExecutable() throws {
-        guard FileManager.default.isExecutableFile(atPath: GIT_PATH) else {
-            throw GitError.gitExecutableNotFound(path: GIT_PATH)
+        guard FileManager.default.isExecutableFile(atPath: gitPath) else {
+            throw GitError.gitExecutableNotFound(path: gitPath)
         }
     }
 
@@ -28,7 +28,7 @@ public struct Log {
     private static func getGitLog(repoPath: String) throws -> String {
         let gitLog = Process()
         gitLog.currentDirectoryPath = repoPath
-        gitLog.executableURL = URL(fileURLWithPath: GIT_PATH)
+        gitLog.executableURL = URL(fileURLWithPath: gitPath)
         gitLog.arguments = [
             "log",
             #"--pretty=%at %h %D | %s"#,

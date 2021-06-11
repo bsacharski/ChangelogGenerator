@@ -1,13 +1,18 @@
 import Foundation
 
 public struct Commit: Equatable {
-    let abbreviatedHash: String
-    let author: Author
-    let subject: String
-    let tag: Tag?
+    public let abbreviatedHash: String
+    public let commitDate: Date
+    public let author: Author
+    public let subject: String
+    public let tag: Tag?
 
     public static func == (lhs: Commit, rhs: Commit) -> Bool {
         if lhs.abbreviatedHash != rhs.abbreviatedHash {
+            return false
+        }
+
+        if lhs.commitDate != rhs.commitDate {
             return false
         }
 
