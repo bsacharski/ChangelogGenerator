@@ -151,6 +151,7 @@ struct SemanticVersionParser {
         let regexPattern  = #"""
         (?xi)
         ^
+        v?
         (?<major>0|[1-9]\d*)
         \.
         (?<minor>0|[1-9]\d*)

@@ -189,4 +189,24 @@ final class SemanticVersionTests: XCTestCase {
             version
         )
     }
+
+    func testParseSemanticVersionWithVAsPrefix() {
+        // given
+        let versionString = "v32.12.4-alpha+202105272159";
+
+        // when
+        let version = try? SemanticVersionParser.parse(version: versionString)
+
+        // then
+        XCTAssertEqual(
+            try! SemanticVersion(
+                major: 32,
+                minor: 12,
+                patch: 4,
+                preRelease: PreRelease(preReleaseTypeChain: [.alpha], version: nil),
+                buildMetadata: "202105272159"
+            ),
+            version
+        )
+    }
 }
