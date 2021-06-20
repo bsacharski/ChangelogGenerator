@@ -1,5 +1,6 @@
-excluded:
- - Tests/
+included:
+ - Sources/
+ - Package.swift
 
 large_tuple:
  - 6
