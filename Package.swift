@@ -25,6 +25,7 @@ let package = Package(
         .target(
             name: "ConcreteGit",
             dependencies: []),
+        .target(name: "ConventionalCommit", dependencies: [ "ConcreteGit" ]),
         .target(
             name: "ChangelogGenerator",
             dependencies: []),
@@ -38,6 +39,9 @@ let package = Package(
         .testTarget(
             name: "ConcreteGitTests",
             dependencies: ["ConcreteGit"]),
+        .testTarget(
+            name: "ConventionalCommitTests", dependencies: [ "ConventionalCommit" ]
+        ),
         .testTarget(
             name: "ChangelogGeneratorTests",
             dependencies: ["ChangelogGenerator"])
